@@ -4,7 +4,9 @@ BUILDPATH = build/barthes
 CPPFLAGS = -O2 -g
 
 OBJS = \
-	src/main.o
+       src/handlers/file.o \
+       src/handlers/screen.o \
+       src/main.o
 
 .cpp.o:
 	$(CC) $(CPPFLAGS) -c $< -o $@

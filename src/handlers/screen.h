@@ -1,0 +1,3 @@
+namespace barthes {
+    void clearscreen();
+}

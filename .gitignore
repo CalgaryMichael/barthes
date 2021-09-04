@@ -1,2 +1,7 @@
-*.swp
+# ignore some build files
+build/*
+*.o
 *.dSYM/
+
+# ignore some text editor stuff
+*.swp
