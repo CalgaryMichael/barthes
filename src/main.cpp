@@ -5,7 +5,7 @@
 
 
 int main(int argc, char *argv[]) {
-    barthes::clearscreen();
+    barthes::init_screen();
     char *filepath = barthes::get_filepath(argc, argv);
     std::cout << filepath << std::endl;
 
@@ -13,5 +13,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < buffer.size(); i++) {
         std::cout << buffer[i] << std::endl;
     }
+
+    while (true) {}
     return 0;
 }
