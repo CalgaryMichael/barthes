@@ -5,9 +5,11 @@
 #include "handlers/file.h"
 #include "handlers/input.h"
 #include "handlers/screen.h"
+#include "handlers/terminal.h"
 
 
 int main(int argc, char *argv[]) {
+    barthes::init_terminal();
     barthes::init_config();
     barthes::init_screen();
     char *filepath = barthes::get_filepath(argc, argv);

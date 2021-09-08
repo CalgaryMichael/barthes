@@ -8,6 +8,7 @@ OBJS = \
        src/handlers/file.o \
        src/handlers/input.o \
        src/handlers/screen.o \
+       src/handlers/terminal.o \
        src/main.o
 
 .cpp.o:

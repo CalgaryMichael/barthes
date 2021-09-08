@@ -2,6 +2,7 @@
 
 #include "config.h"
 
+
 namespace barthes {
     TermConfig config = {
         .size=std::make_pair(0, 0),
