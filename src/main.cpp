@@ -1,10 +1,14 @@
 #include <iostream>
+#include <unistd.h>
 
+#include "config.h"
 #include "handlers/file.h"
+#include "handlers/input.h"
 #include "handlers/screen.h"
 
 
 int main(int argc, char *argv[]) {
+    barthes::init_config();
     barthes::init_screen();
     char *filepath = barthes::get_filepath(argc, argv);
     std::cout << filepath << std::endl;
@@ -14,6 +18,6 @@ int main(int argc, char *argv[]) {
         std::cout << buffer[i] << std::endl;
     }
 
-    while (true) {}
-    return 0;
+    barthes::handle_input();
+    return EXIT_SUCCESS;
 }

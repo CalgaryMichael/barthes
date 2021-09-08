@@ -4,7 +4,9 @@ BUILDPATH = build/barthes
 CPPFLAGS = -O2 -g
 
 OBJS = \
+       src/config.o \
        src/handlers/file.o \
+       src/handlers/input.o \
        src/handlers/screen.o \
        src/main.o
 

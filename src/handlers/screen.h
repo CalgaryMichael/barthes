@@ -1,4 +1,5 @@
-#include <termios.h>
+#ifndef _BARTHES_SCREEN_H
+#define _BARTHES_SCREEN_H
 
 
 namespace barthes {
@@ -7,3 +8,5 @@ namespace barthes {
     void reset_terminal();
     void init_screen();
 }
+
+#endif
