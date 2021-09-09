@@ -1,11 +1,11 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "config.h"
-#include "handlers/file.h"
-#include "handlers/input.h"
-#include "handlers/screen.h"
-#include "handlers/terminal.h"
+#include "barthes/config.h"
+#include "barthes/handlers/file.h"
+#include "barthes/handlers/input.h"
+#include "barthes/handlers/screen.h"
+#include "barthes/handlers/terminal.h"
 
 
 int main(int argc, char *argv[]) {

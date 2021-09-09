@@ -1,6 +1,6 @@
 #include <utility>
 
-#include "config.h"
+#include "barthes/config.h"
 
 
 namespace barthes {

@@ -13,4 +13,4 @@ SET(source_files
 )
 
 ADD_EXECUTABLE(barthes ${source_files})
-TARGET_INCLUDE_DIRECTORIES(barthes PRIVATE "${PROJECT_SOURCE_DIR}/include")
+TARGET_INCLUDE_DIRECTORIES(barthes PRIVATE "${PROJECT_SOURCE_DIR}/../include")
