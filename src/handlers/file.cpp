@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+
 namespace barthes {
     /* Returns the absolute path of the filepath that was passed into program */
     char* get_filepath(int argc, char *argv[]) {
