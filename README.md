@@ -13,8 +13,12 @@ barthes path/to/file.cpp
 
 ## Build
 
-Run the following to build `barthes` from source:
+Currently, this project relies on `cmake` to build from source. Please make sure that you have this program downloaded on your system.
+
+To build, run the following to build `barthes` from source:
 
 ```bash
-make clean && make
+cd builld
+cmake ../
+cmake --build .
 ```

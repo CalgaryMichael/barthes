@@ -1,5 +1,8 @@
 # ignore some build files
 build/*
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
 *.o
 *.dSYM/
 
