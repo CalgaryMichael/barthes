@@ -3,15 +3,31 @@
 #include <termios.h>
 #include <unistd.h>
 
+#include <barthes/exceptions.h>
+
 
 namespace barthes {
     termios orig_termios;
 
+    /*
+     * Save the original terminal state so that we can
+     * restore it when we are exiting the program
+     */
+    termios save_original_terminal_flags() {
+        int result = tcgetattr(STDIN_FILENO, &orig_termios);
+        if (result < 0) {
+            die("Unable to store original terminal state");
+        }
+
+        return orig_termios;
+    }
+
+    void reset_terminal_flags() {
+        tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+    }
+
     void set_terminal_flags() {
-        // save original terminal state, so that we can
-        // restore it when we are exiting the program
-        tcgetattr(STDIN_FILENO, &orig_termios);
-        termios raw = orig_termios;
+        termios raw = save_original_terminal_flags();
 
         raw.c_lflag &= ~(
             ECHO            // prevent printing commands to screen
@@ -34,11 +50,10 @@ namespace barthes {
         );
         raw.c_cc[VMIN] = 0;
         raw.c_cc[VTIME] = 1;
-        tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
-    }
-
-    void reset_terminal_flags() {
-        tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+        int result = tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+        if (result < 0) {
+            die("Unable to set terminal into \"raw mode\"");
+        }
     }
 
     void init_terminal() {

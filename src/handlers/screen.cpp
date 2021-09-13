@@ -9,6 +9,5 @@ namespace barthes {
 
     void init_screen() {
         clearscreen();
-        std::atexit(clearscreen);
     }
 }

@@ -5,6 +5,7 @@ SET(CMAKE_CXX_STANDARD_REQUIRED True)
 
 SET(source_files
     config.cpp
+    exceptions.cpp
     handlers/file.cpp
     handlers/input.cpp
     handlers/screen.cpp
