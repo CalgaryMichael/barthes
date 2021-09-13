@@ -13,5 +13,10 @@ SET(source_files
     main.cpp
 )
 
+# Create libbarthes to be used by tests
+ADD_LIBRARY(libbarthes ${source_files})
+TARGET_INCLUDE_DIRECTORIES(libbarthes PRIVATE "${PROJECT_SOURCE_DIR}/../include")
+
+# Create executable to be used by cli
 ADD_EXECUTABLE(barthes ${source_files})
 TARGET_INCLUDE_DIRECTORIES(barthes PRIVATE "${PROJECT_SOURCE_DIR}/../include")
