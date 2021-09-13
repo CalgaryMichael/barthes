@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <barthes/handlers/input.h>
 #include <barthes/handlers/screen.h>
 #include <barthes/exceptions.h>
 
@@ -15,21 +16,27 @@ namespace barthes {
         return c;
     }
 
-    void handle_keypress(char input) {
+    KeypressResponse handle_keypress(char input) {
+        KeypressResponse response = KeypressResponse::Continue;
         switch (input) {
             case 'q':
                 clearscreen();
-                exit(EXIT_SUCCESS);
+                response = KeypressResponse::Exit;
                 break;
             default:
                 break;
         }
+
+        return response;
     }
 
     void handle_input() {
         while (true) {
             char input = get_keypress();
-            handle_keypress(input);
+            KeypressResponse response = handle_keypress(input);
+            if (response == KeypressResponse::Exit) {
+                return;
+            }
         }
     }
 }

@@ -2,8 +2,13 @@
 #define _BARTHES_INPUT_H
 
 namespace barthes {
+    enum class KeypressResponse {
+        Exit = 0,
+        Continue = 1
+    };
+
     char get_keypress();
-    void handle_keypress(char input);
+    KeypressResponse handle_keypress(char input);
     void handle_input();
 }
 
