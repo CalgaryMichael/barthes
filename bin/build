@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -e
+
+function usage() {
+    cat <<USAGE
+
+    Usage: $0 [--clear|-c]
+
+    Options:
+        -c, --clear:            clear the CMake cache before building
+USAGE
+    exit 1
+}
+
+PROJECT_ROOT=$(dirname 0)
+BUILD_LOC=$PROJECT_ROOT/build
+
+clear_cache=false
+while [ "$1" != "" ]; do
+    case $1 in
+    --clear|-c)
+        clear_cache=true
+        ;;
+    --help|-h)
+        usage
+	;;
+    esac
+    shift
+done
+
+if [[ $clear_cache == true ]]; then
+  . $PROJECT_ROOT/bin/clean
+  echo "CMake cache cleared!"
+fi
+
+if [[ "$OSTYPE" == "darwin"* ]] ; then
+  # if MacOS, we need to make sure that we target the correct SDK folder
+  # this is necessary due to the way that MacOS has fucked up their C build
+  # system.
+  cmake -S $PROJECT_ROOT -B $BUILD_LOC -DCMAKE_OSX_SYSROOT=$(xcrun --show-sdk-path)
+else
+  cmake -S $PROJECT_ROOT -B $BUILD_LOC
+fi
+
+cmake --build $BUILD_LOC

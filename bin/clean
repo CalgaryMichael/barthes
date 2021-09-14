@@ -1,0 +1,10 @@
+#!/bin/sh
+
+set -e
+
+PROJECT_ROOT=$(dirname 0)
+BUILD_LOC=$PROJECT_ROOT/build
+
+rm -rf $BUILD_LOC
+mkdir $BUILD_LOC
+touch $BUILD_LOC/.keep

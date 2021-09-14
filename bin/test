@@ -1,0 +1,50 @@
+#!/bin/sh
+
+set -e
+
+function usage() {
+    cat <<USAGE
+
+    Usage: $0 [--build|-b] [--clear|-c]
+
+    Options:
+	-B, --no-build:         prevent building source before running tests
+	-c, --clear:            clear the CMake cache before building (**warning**: incompatible with `--no-build`)
+USAGE
+    exit 1
+}
+
+PROJECT_ROOT=$(dirname 0)
+BUILD_LOC=$PROJECT_ROOT/build
+
+build_src=true
+clear_cache=false
+for arg in "$@"; do
+    case $arg in
+    --no-build|-B)
+        build_src=false
+        ;;
+    --clear|-c)
+        clear_cache=true
+        ;;
+    -h | --help)
+        usage
+        ;;
+    esac
+    shift
+done
+
+if [[ $build_src == true ]]; then
+  extra_flags=""
+  if [[ $clear_cache == true ]]; then
+    extra_flags="--clear"
+  fi
+  . $PROJECT_ROOT/bin/build $extra_flags
+else
+  if [[ $clear_cache == true ]]; then
+    usage
+    exit 1
+  fi
+fi
+
+ctest --test-dir $BUILD_LOC/test --output-on-failure
