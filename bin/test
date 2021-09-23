@@ -47,4 +47,6 @@ else
   fi
 fi
 
+export TEST_DATA_FILEPATH="$(realpath "$PROJECT_ROOT/test/data")/"
+echo "Setting test data folder to $TEST_DATA_FILEPATH"
 ctest --test-dir $BUILD_LOC/test --output-on-failure

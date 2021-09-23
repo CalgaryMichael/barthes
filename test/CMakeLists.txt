@@ -14,6 +14,7 @@ FetchContent_MakeAvailable(googletest)
 ENABLE_TESTING()
 
 SET(test_files
+  handlers/file.test.cpp
   handlers/input.test.cpp
 )
 
