@@ -6,7 +6,7 @@
 
 namespace barthes {
     typedef struct {
-        std::pair<int, int> size;
+        std::pair<int, int> window_size;
         std::pair<int, int> cursor;
     } TermConfig;
 

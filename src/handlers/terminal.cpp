@@ -36,7 +36,7 @@ namespace barthes {
             | ISIG          // prevent Ctrl-C/Ctrl-Z from suspending the program
         );
         raw.c_iflag &= ~(
-            BRKINT          // prevents Ctrl-C from killing the program
+            BRKINT          // prevent Ctrl-C from killing the program
             | ICRNL         // prevent carriage return newline fangling
             | INPCK         // prevent parity checking -- doubtfully being used by modern terms
             | ISTRIP        // prevent stripping the 8th bit of every character

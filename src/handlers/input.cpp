@@ -19,7 +19,7 @@ namespace barthes {
     KeypressResponse handle_keypress(char input) {
         KeypressResponse response = KeypressResponse::Continue;
         switch (input) {
-            case 'q':
+            case CTRL_KEY('q'):
                 clearscreen();
                 response = KeypressResponse::Exit;
                 break;
