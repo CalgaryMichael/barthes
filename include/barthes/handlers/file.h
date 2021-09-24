@@ -5,8 +5,8 @@
 #include <vector>
 
 namespace barthes {
-    char* get_filepath(int argc, char *argv[]);
-    std::vector<std::string> open_file(char *filepath);
+    std::string get_filepath(int argc, char *argv[]);
+    std::vector<std::string> open_file(std::string filepath);
 }
 
 #endif

@@ -7,5 +7,5 @@ TEST(InputHandlerTest, handle_keypress__empty) {
 }
 
 TEST(InputHandlerTest, handle_keypress__Q) {
-  EXPECT_EQ(barthes::handle_keypress('q'), barthes::KeypressResponse::Exit);
+  EXPECT_EQ(barthes::handle_keypress(CTRL_KEY('q')), barthes::KeypressResponse::Exit);
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <unistd.h>
 
 #include <barthes/config.h>
@@ -12,7 +13,7 @@ int main(int argc, char *argv[]) {
     barthes::init_terminal();
     barthes::init_config();
     barthes::init_screen();
-    char *filepath = barthes::get_filepath(argc, argv);
+    std::string filepath = barthes::get_filepath(argc, argv);
     std::cout << filepath << std::endl;
 
     barthes::TermConfig *tc = barthes::get_config();
