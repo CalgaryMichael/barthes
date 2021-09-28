@@ -1,5 +1,5 @@
-#ifndef _BARHTES_TERMINAL_H
-#define _BARHTES_TERMINAL_H
+#ifndef _BARTHES_TERMINAL_H
+#define _BARTHES_TERMINAL_H
 
 #include <termios.h>
 

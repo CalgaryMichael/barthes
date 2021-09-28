@@ -10,6 +10,7 @@ SET(source_files
     handlers/input.cpp
     handlers/screen.cpp
     handlers/terminal.cpp
+    utils/string.cpp
     main.cpp
 )
 

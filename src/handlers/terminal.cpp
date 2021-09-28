@@ -42,9 +42,9 @@ namespace barthes {
             | ISTRIP        // prevent stripping the 8th bit of every character
             | IXON          // prevent pausing transmission of data to terminal
         );
-        raw.c_oflag &= ~(
-            OPOST           // stop translating `\n` -> `\r\n`
-        );
+        //raw.c_oflag &= ~(
+        //    OPOST           // stop translating `\n` -> `\r\n`
+        //);
         raw.c_cflag |= (
             CS8             // set the character size to 8
         );

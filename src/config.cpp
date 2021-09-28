@@ -1,6 +1,8 @@
+#include <stdexcept>
 #include <utility>
 
 #include <barthes/config.h>
+#include <barthes/exceptions.h>
 #include <barthes/handlers/screen.h>
 
 
@@ -11,8 +13,11 @@ namespace barthes {
     };
 
     void init_config() {
-        config.window_size = get_window_size();
-        return;
+        try {
+            config.window_size = get_window_size();
+        } catch (const std::runtime_error e) {
+            die("Could not correctly get window size");
+        }
     }
 
     TermConfig *get_config() {

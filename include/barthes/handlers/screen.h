@@ -7,6 +7,7 @@
 namespace barthes {
     void clearscreen();
     void init_screen();
+    void to_screen(std::string text);
 
     std::pair<int, int> get_window_size();
 }

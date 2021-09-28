@@ -14,6 +14,10 @@ namespace barthes {
         clearscreen();
     }
 
+    void to_screen(std::string text) {
+        std::cout << text << std::endl;
+    }
+
     std::pair<int, int> get_window_size() {
         winsize ws;
         if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
