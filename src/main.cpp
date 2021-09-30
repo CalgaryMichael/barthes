@@ -3,6 +3,8 @@
 #include <string>
 #include <unistd.h>
 
+#include <fmt/core.h>
+
 #include <barthes/config.h>
 #include <barthes/handlers/file.h>
 #include <barthes/handlers/input.h>
@@ -20,7 +22,7 @@ int main(int argc, char *argv[]) {
     barthes::to_screen(filepath);
 
     barthes::TermConfig *tc = barthes::get_config();
-    barthes::to_screen(barthes::build_string("Screen size: %d x %d\n", tc->window_size.first, tc->window_size.second));
+    barthes::to_screen(fmt::format("Screen size: {} x {}\n", tc->window_size.first, tc->window_size.second));
 
     std::vector<std::string> buffer = barthes::open_file(filepath);
     for (int i = 0; i < buffer.size(); i++) {
