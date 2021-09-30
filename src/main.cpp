@@ -9,25 +9,26 @@
 #include <barthes/handlers/file.h>
 #include <barthes/handlers/input.h>
 #include <barthes/handlers/screen.h>
-#include <barthes/handlers/terminal.h>
-#include <barthes/utils/string.h>
 
 
 int main(int argc, char *argv[]) {
-    barthes::init_terminal();
     barthes::init_config();
     barthes::init_screen();
 
     std::string filepath = barthes::get_filepath(argc, argv);
-    barthes::to_screen(filepath);
 
     barthes::TermConfig *tc = barthes::get_config();
-    barthes::to_screen(fmt::format("Screen size: {} x {}\n", tc->window_size.first, tc->window_size.second));
+    std::vector<std::string> buffer;
+    buffer.push_back(filepath);
+    buffer.push_back(fmt::format("Screen size: {} x {}", tc->window_size.first, tc->window_size.second));
+    buffer.push_back("");
 
-    std::vector<std::string> buffer = barthes::open_file(filepath);
-    for (int i = 0; i < buffer.size(); i++) {
-        barthes::to_screen(buffer[i]);
-    }
+    std::vector<std::string> file_buffer = barthes::open_file(filepath);
+    buffer.insert(buffer.end(), file_buffer.begin(), file_buffer.end());
+
+    // draw initial file
+    barthes::to_screen(buffer);
+    barthes::set_cursor(tc->cursor.first, tc->cursor.second);
 
     barthes::handle_input();
     return EXIT_SUCCESS;
