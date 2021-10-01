@@ -1,5 +1,5 @@
-#include <ncurses.h>
 #include <iostream>
+#include <ncurses.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <unistd.h>

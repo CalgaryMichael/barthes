@@ -94,9 +94,9 @@ TEST(InputHandlerTest, move_cursor__left__out_of_bounds) {
 }
 
 TEST(InputHandlerTest, handle_keypress__empty) {
-  EXPECT_EQ(barthes::handle_keypress('\0'), barthes::KeypressResponse::Continue);
+  EXPECT_EQ(barthes::handle_keypress((int)'\0'), barthes::KeypressResponse::Continue);
 }
 
 TEST(InputHandlerTest, handle_keypress__Q) {
-  EXPECT_EQ(barthes::handle_keypress(CTRL_KEY('q')), barthes::KeypressResponse::Exit);
+  EXPECT_EQ(barthes::handle_keypress((int)CTRL_KEY('q')), barthes::KeypressResponse::Exit);
 }

@@ -18,8 +18,8 @@ namespace barthes {
 
     void move_cursor(TermConfig *tc, int row_diff, int col_diff);
 
-    char get_keypress();
-    KeypressResponse handle_keypress(char input);
+    int get_keypress();
+    KeypressResponse handle_keypress(int input);
     void handle_input();
 }
 

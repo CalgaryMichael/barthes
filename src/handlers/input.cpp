@@ -1,6 +1,7 @@
 #include <algorithm>
+#include <iostream>
+#include <ncurses.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include <barthes/handlers/input.h>
 #include <barthes/handlers/screen.h>
@@ -21,28 +22,29 @@ namespace barthes {
         set_cursor(tc);
     }
 
-    char get_keypress() {
-        char c = '\0';
-        int result = read(STDIN_FILENO, &c, 1);
-        if (result < 0) {
-            die("Unable to read character");
-        }
-        return c;
+    int get_keypress() {
+        return getch();
     }
 
-    KeypressResponse handle_keypress(char input) {
+    KeypressResponse handle_keypress(int input) {
         KeypressResponse response = KeypressResponse::Continue;
         TermConfig *tc = get_config();
         switch (input) {
+            // KEY_DOWN moves you *visually* down, but "up" on current row number
+            case KEY_DOWN:
             case 'j':
                 move_cursor(tc, UP, 0);
                 break;
+            // KEY_UP moves you *visually* up, but "down" on the current row number
+            case KEY_UP:
             case 'k':
                 move_cursor(tc, DOWN, 0);
                 break;
+            case KEY_RIGHT:
             case 'l':
                 move_cursor(tc, 0, RIGHT);
                 break;
+            case KEY_LEFT:
             case 'h':
                 move_cursor(tc, 0, LEFT);
                 break;
@@ -58,7 +60,7 @@ namespace barthes {
 
     void handle_input() {
         while (true) {
-            char input = get_keypress();
+            int input = get_keypress();
             KeypressResponse response = handle_keypress(input);
             if (response == KeypressResponse::Exit) {
                 return;
