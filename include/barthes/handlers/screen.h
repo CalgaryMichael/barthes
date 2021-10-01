@@ -4,9 +4,12 @@
 #include <utility>
 #include <vector>
 
+#include <barthes/config.h>
+
 
 namespace barthes {
     void set_cursor(int row, int col);
+    void set_cursor(TermConfig *tc);
     void teardown_screen();
     void init_screen();
 

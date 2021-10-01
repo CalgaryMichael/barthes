@@ -8,11 +8,17 @@
 
 #include <fmt/core.h>
 
+#include <barthes/config.h>
+
 
 namespace barthes {
     void set_cursor(int row, int col) {
         move(row, col);
         refresh();
+    }
+
+    void set_cursor(TermConfig *tc) {
+        set_cursor(tc->cursor.first, tc->cursor.second);
     }
 
     void teardown_screen() {
@@ -46,6 +52,6 @@ namespace barthes {
         if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
             throw std::runtime_error("Unable to gather the size of the window");
         }
-        return std::pair<int, int>(ws.ws_col, ws.ws_row);
+        return std::pair<int, int>(ws.ws_row, ws.ws_col);
     }
 }

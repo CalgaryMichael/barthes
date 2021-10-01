@@ -12,7 +12,7 @@ namespace barthes {
             throw std::invalid_argument("Please provide a file to edit");
         }
     
-        char *filepath = new char;
+        char *filepath = new char[PATH_MAX];
         realpath(argv[1], filepath);
         return std::string(filepath);
     }

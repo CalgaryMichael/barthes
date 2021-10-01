@@ -30,7 +30,7 @@ std::string get_test_filepath(std::string filename) {
 TEST(FileHandlerTest, get_filepath__absolute) {
     std::string expected = get_test_filepath((std::string)"example.txt");
 
-    char *expected_char = new char[expected.size() + 1];
+    char *expected_char = new char[expected.length() + 1];
     strcpy(expected_char, expected.c_str());
 
     char *argv[2] = {(char*)"", expected_char};

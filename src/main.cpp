@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 
     // draw initial file
     barthes::to_screen(buffer);
-    barthes::set_cursor(tc->cursor.first, tc->cursor.second);
+    barthes::set_cursor(tc);
 
     barthes::handle_input();
     return EXIT_SUCCESS;
