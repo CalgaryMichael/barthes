@@ -8,6 +8,7 @@
 
 namespace barthes {
     TermConfig config = {
+        .mode=EditorMode::View,
         .window_size=std::make_pair(0, 0),
         .cursor=std::make_pair(0, 0)
     };
@@ -18,6 +19,10 @@ namespace barthes {
         } catch (const std::runtime_error e) {
             die("Could not correctly get window size");
         }
+    }
+
+    void set_mode(TermConfig *tc, EditorMode mode) {
+        tc->mode = mode;
     }
 
     TermConfig *get_config() {

@@ -20,6 +20,8 @@ namespace barthes {
 
     int get_keypress();
     KeypressResponse handle_keypress(int input);
+    KeypressResponse handle_view_keypress(TermConfig *tc, int input);
+    KeypressResponse handle_edit_keypress(TermConfig *tc, int input);
     void handle_input();
 }
 
