@@ -11,15 +11,11 @@
 
 namespace barthes {
     void move_cursor(TermConfig *tc, int row_diff, int col_diff) {
-        // TODO: disallow cursor from going farther than the text on the screen
-        tc->cursor.first = std::min<int>(
-            std::max<int>(tc->cursor.first + row_diff, 0),
-            tc->window_size.first - 1
-        );
-        tc->cursor.second = std::min<int>(
-            std::max<int>(tc->cursor.second + col_diff, 0),
-            tc->window_size.second - 1
-        );
+        int row_max = tc->file_buffer.size() -1;
+        tc->cursor.first = std::clamp<int>(tc->cursor.first + row_diff, 0, row_max);
+
+        int col_max = tc->file_buffer[tc->cursor.first].length() + 1;
+        tc->cursor.second = std::clamp<int>(tc->cursor.second + col_diff, 0, col_max);
         set_cursor(tc);
     }
 
