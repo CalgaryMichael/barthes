@@ -19,7 +19,7 @@ namespace barthes {
         set_cursor(tc);
     }
 
-    void alter_file(TermConfig *tc, int input) {
+    void add_ch(TermConfig *tc, int input) {
         int row = tc->cursor.first;
         int col = tc->cursor.second;
 
@@ -27,6 +27,16 @@ namespace barthes {
         tc->file_buffer[row].insert(col, input_str);
         to_screen(tc->file_buffer);
         move_cursor(tc, 0, 1);
+    }
+
+    void remove_ch(TermConfig *tc) {
+        // TODO: handle if at the beginning of line
+        int row = tc->cursor.first;
+        int col = tc->cursor.second;
+
+        tc->file_buffer[row].erase(col - 1, 1);
+        to_screen(tc->file_buffer);
+        move_cursor(tc, 0, -1);
     }
 
     int get_keypress() {
@@ -99,8 +109,29 @@ namespace barthes {
             case CTRL_KEY('q'):
                 response = KeypressResponse::Exit;
                 break;
+            case KEY_F(1):
+            case KEY_F(2):
+            case KEY_F(3):
+            case KEY_F(4):
+            case KEY_F(5):
+            case KEY_F(6):
+            case KEY_F(7):
+            case KEY_F(8):
+            case KEY_F(9):
+            case KEY_F(10):
+            case KEY_F(11):
+            case KEY_F(12):
+                break;
+            case KEY_ENTER:
+                // TODO: handle newlines
+                break;
+            case KEY_BACKSPACE:
+            case KEY_DC:
+            case 127:
+                remove_ch(tc);
+                break;
             default:
-                alter_file(tc, input);
+                add_ch(tc, input);
                 break;
         }
         return response;
