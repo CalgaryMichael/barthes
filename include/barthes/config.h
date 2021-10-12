@@ -2,7 +2,9 @@
 #define _BARTHES_CONFIG_H
 
 #include <stdlib.h>
+#include <string>
 #include <utility>
+#include <vector>
 
 namespace barthes {
     enum class EditorMode {
@@ -14,9 +16,11 @@ namespace barthes {
         EditorMode mode;
         std::pair<int, int> window_size;
         std::pair<int, int> cursor;
+        std::string filepath;
+        std::vector<std::string> file_buffer;
     } TermConfig;
 
-    void init_config();
+    TermConfig* init_config(std::string filepath);
     void set_mode(TermConfig *tc, EditorMode mode);
     TermConfig* get_config();
 }
