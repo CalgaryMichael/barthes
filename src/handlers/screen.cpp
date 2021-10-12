@@ -41,8 +41,9 @@ namespace barthes {
 
     void to_screen(std::vector<std::string> buffer) {
         std::string output;
+        clear();
         for (int i = 0; i < buffer.size(); i++) {
-            output += fmt::format("~ {}\n", buffer[i]);
+            output += fmt::format("{}\n", buffer[i]);
         }
         to_screen(output);
     }

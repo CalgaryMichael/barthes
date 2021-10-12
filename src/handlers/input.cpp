@@ -19,6 +19,16 @@ namespace barthes {
         set_cursor(tc);
     }
 
+    void alter_file(TermConfig *tc, int input) {
+        int row = tc->cursor.first;
+        int col = tc->cursor.second;
+
+        std::string input_str(1, input);
+        tc->file_buffer[row].insert(col, input_str);
+        to_screen(tc->file_buffer);
+        move_cursor(tc, 0, 1);
+    }
+
     int get_keypress() {
         return getch();
     }
@@ -90,6 +100,7 @@ namespace barthes {
                 response = KeypressResponse::Exit;
                 break;
             default:
+                alter_file(tc, input);
                 break;
         }
         return response;

@@ -26,14 +26,10 @@ namespace barthes {
         }
 
         // load file
-        std::vector<std::string> buffer;
-        buffer.push_back(filepath);
-        buffer.push_back(fmt::format("Screen size: {} x {}", config.window_size.first, config.window_size.second));
-        buffer.push_back("");
+        config.file_buffer = open_file(filepath);
 
-        std::vector<std::string> file_buffer = open_file(filepath);
-        buffer.insert(buffer.end(), file_buffer.begin(), file_buffer.end());
-        config.file_buffer = buffer;
+        // TODO: create a window for file info
+        // TODO: create a window for line number
 
         return &config;
     }

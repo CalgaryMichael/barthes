@@ -17,6 +17,7 @@ namespace barthes {
     };
 
     void move_cursor(TermConfig *tc, int row_diff, int col_diff);
+    void alter_file(TermConfig *tc, int input);
 
     int get_keypress();
     KeypressResponse handle_keypress(int input);
