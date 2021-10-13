@@ -19,6 +19,25 @@ namespace barthes {
         set_cursor(tc);
     }
 
+    void add_newline(TermConfig *tc) {
+        int row = tc->cursor.first;
+        int col = tc->cursor.second;
+
+        std::string existing_line = tc->file_buffer[row];
+        std::string replacement_line = existing_line.substr(0, col);
+        std::string new_line = existing_line.substr(col, existing_line.size());
+
+        tc->file_buffer[row] = replacement_line;
+        tc->file_buffer.insert(tc->file_buffer.begin() + row + 1, new_line);
+
+        to_screen(tc->file_buffer);
+
+        // force cursor to be at the beginning of the new line.
+        // This is a bit of a hack to work around the limitations of `move_cursor` working off of differences
+        tc->cursor.second = 0;
+        move_cursor(tc, 1, 0);
+    }
+
     void add_ch(TermConfig *tc, int input) {
         int row = tc->cursor.first;
         int col = tc->cursor.second;
@@ -30,9 +49,12 @@ namespace barthes {
     }
 
     void remove_ch(TermConfig *tc) {
-        // TODO: handle if at the beginning of line
         int row = tc->cursor.first;
         int col = tc->cursor.second;
+        if (col - 1 < 0) {
+            // TODO: handle if at the beginning of line
+            return;
+        }
 
         tc->file_buffer[row].erase(col - 1, 1);
         to_screen(tc->file_buffer);
@@ -123,7 +145,8 @@ namespace barthes {
             case KEY_F(12):
                 break;
             case KEY_ENTER:
-                // TODO: handle newlines
+            case '\n':
+                add_newline(tc);
                 break;
             case KEY_BACKSPACE:
             case KEY_DC:
