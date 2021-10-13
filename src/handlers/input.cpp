@@ -19,6 +19,15 @@ namespace barthes {
         set_cursor(tc);
     }
 
+    void move_cursor_absolute(TermConfig *tc, int row, int col) {
+        int row_max = tc->file_buffer.size() -1;
+        tc->cursor.first = std::clamp<int>(row, 0, row_max);
+
+        int col_max = tc->file_buffer[tc->cursor.first].length() + 1;
+        tc->cursor.second = std::clamp<int>(col, 0, col_max);
+        set_cursor(tc);
+    }
+
     void add_newline(TermConfig *tc) {
         int row = tc->cursor.first;
         int col = tc->cursor.second;
@@ -31,11 +40,7 @@ namespace barthes {
         tc->file_buffer.insert(tc->file_buffer.begin() + row + 1, new_line);
 
         to_screen(tc->file_buffer);
-
-        // force cursor to be at the beginning of the new line.
-        // This is a bit of a hack to work around the limitations of `move_cursor` working off of differences
-        tc->cursor.second = 0;
-        move_cursor(tc, 1, 0);
+        move_cursor_absolute(tc, row + 1, 0);
     }
 
     void add_ch(TermConfig *tc, int input) {
@@ -51,14 +56,25 @@ namespace barthes {
     void remove_ch(TermConfig *tc) {
         int row = tc->cursor.first;
         int col = tc->cursor.second;
-        if (col - 1 < 0) {
-            // TODO: handle if at the beginning of line
-            return;
-        }
+        if (col - 1 >= 0) {
+            tc->file_buffer[row].erase(col - 1, 1);
+            to_screen(tc->file_buffer);
+            move_cursor(tc, 0, -1);
+        } else {
+            if (row == 0) {
+                // we are on the first character of the first line,
+                // so there is nothing to remove
+                return;
+            }
+            std::string current_line = tc->file_buffer[row];
+            int col_pos = tc->file_buffer[row - 1].length();
 
-        tc->file_buffer[row].erase(col - 1, 1);
-        to_screen(tc->file_buffer);
-        move_cursor(tc, 0, -1);
+            tc->file_buffer[row - 1].append(current_line);
+            tc->file_buffer.erase(tc->file_buffer.begin() + row);
+
+            to_screen(tc->file_buffer);
+            move_cursor_absolute(tc, row - 1, col_pos);
+        }
     }
 
     int get_keypress() {
