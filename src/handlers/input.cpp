@@ -10,27 +10,10 @@
 
 
 namespace barthes {
-    void move_cursor(TermConfig *tc, int row_diff, int col_diff) {
-        int row_max = tc->file_buffer.size() -1;
-        tc->cursor.first = std::clamp<int>(tc->cursor.first + row_diff, 0, row_max);
-
-        int col_max = tc->file_buffer[tc->cursor.first].length() + 1;
-        tc->cursor.second = std::clamp<int>(tc->cursor.second + col_diff, 0, col_max);
-        set_cursor(tc);
-    }
-
-    void move_cursor_absolute(TermConfig *tc, int row, int col) {
-        int row_max = tc->file_buffer.size() -1;
-        tc->cursor.first = std::clamp<int>(row, 0, row_max);
-
-        int col_max = tc->file_buffer[tc->cursor.first].length() + 1;
-        tc->cursor.second = std::clamp<int>(col, 0, col_max);
-        set_cursor(tc);
-    }
-
     void add_newline(TermConfig *tc) {
-        int row = tc->cursor.first;
-        int col = tc->cursor.second;
+        std::pair<int, int> loc = file_loc(tc);
+        int row = loc.first;
+        int col = loc.second;
 
         std::string existing_line = tc->file_buffer[row];
         std::string replacement_line = existing_line.substr(0, col);
@@ -44,8 +27,9 @@ namespace barthes {
     }
 
     void add_ch(TermConfig *tc, int input) {
-        int row = tc->cursor.first;
-        int col = tc->cursor.second;
+        std::pair<int, int> loc = file_loc(tc);
+        int row = loc.first;
+        int col = loc.second;
 
         std::string input_str(1, input);
         tc->file_buffer[row].insert(col, input_str);
@@ -54,8 +38,9 @@ namespace barthes {
     }
 
     void remove_ch(TermConfig *tc) {
-        int row = tc->cursor.first;
-        int col = tc->cursor.second;
+        std::pair<int, int> loc = file_loc(tc);
+        int row = loc.first;
+        int col = loc.second;
         if (col - 1 >= 0) {
             tc->file_buffer[row].erase(col - 1, 1);
             to_screen(tc->file_buffer);

@@ -16,12 +16,16 @@ namespace barthes {
         EditorMode mode;
         std::pair<int, int> window_size;
         std::pair<int, int> cursor;
+        int view_line;
         std::string filepath;
         std::vector<std::string> file_buffer;
     } TermConfig;
 
     TermConfig* init_config(std::string filepath);
     void set_mode(TermConfig *tc, EditorMode mode);
+    int get_row_max(TermConfig *tc);
+    int get_col_max(TermConfig *tc);
+    std::pair<int, int> file_loc(TermConfig *tc);
     TermConfig* get_config();
 }
 

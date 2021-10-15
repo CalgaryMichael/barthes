@@ -16,8 +16,6 @@ namespace barthes {
         Continue = 1
     };
 
-    void move_cursor(TermConfig *tc, int row_diff, int col_diff);
-    void move_cursor_absolute(TermConfig *tc, int row, int col);
     void add_newline(TermConfig *tc);
     void add_ch(TermConfig *tc, int input);
     void remove_ch(TermConfig *tc);
