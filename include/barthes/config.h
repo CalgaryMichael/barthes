@@ -16,7 +16,7 @@ namespace barthes {
         EditorMode mode;
         std::pair<int, int> window_size;
         std::pair<int, int> cursor;
-        int view_line;
+        std::pair<int, int> view;
         std::string filepath;
         std::vector<std::string> file_buffer;
     } TermConfig;

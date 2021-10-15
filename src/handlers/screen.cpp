@@ -33,13 +33,20 @@ namespace barthes {
 
     void to_screen(std::vector<std::string> buffer) {
         TermConfig *tc = get_config();
-        int start = tc->view_line;
-        int end = std::min<int>(tc->view_line + tc->window_size.first, buffer.size());
+        int row_start = tc->view.first;
+        int row_end = std::min<int>(tc->view.first + tc->window_size.first, buffer.size());
 
         // build the string that we are going to send to the screen
         std::string output;
-        for (int i = start; i < end; i++) {
-            output += fmt::format("{}\n", buffer[i]);
+        for (int i = row_start; i < row_end; i++) {
+            std::string line = "";
+            if (buffer[i].length() > tc->view.second) {
+                // do not let a string extend beyond the screen side (horizontally)
+                int col_start = tc->view.second;
+                int col_end = tc->window_size.second - 1;
+                line = buffer[i].substr(col_start, col_end);
+            }
+            output += fmt::format("{}\n", line);
         }
 
         // actually handle putting stuff onto the screen
@@ -48,23 +55,38 @@ namespace barthes {
     }
 
     bool adjust_view(TermConfig *tc) {
-        // Changes the `view_line` depending on whether or not the cursor is out of the window
-        // Returns `true` if we have changed the `view_line` (e.g. scrolled)
-        int old_view_line = tc->view_line;
+        // Changes the `view` depending on whether or not the cursor is out of the window
+        // Returns `true` if we have changed the `view` (e.g. scrolled)
+        int old_view_row = tc->view.first;
+        int old_view_col = tc->view.second;
 
         // scroll up
         if (tc->cursor.first < 0) {
-            tc->view_line = std::max(tc->view_line - 1, 0);
+            tc->view.first = std::max(tc->view.first - 1, 0);
             tc->cursor.first = 0;
         }
 
         // scroll down
         if (tc->cursor.first >= tc->window_size.first) {
-            tc->view_line++;
-            tc->cursor.first = tc->window_size.first - 1;
+            int buffer_size = get_row_max(tc);
+            tc->view.first = std::min<int>(tc->view.first + 1, buffer_size - tc->window_size.first + 1);
+            tc->cursor.first = std::min<int>(tc->window_size.first - 1, buffer_size);
         }
 
-        return old_view_line != tc->view_line;
+        // scroll right
+        if (tc->cursor.second >= tc->window_size.second) {
+            int line_length = get_col_max(tc);
+            tc->view.second = std::min<int>(tc->view.second + 1, line_length - tc->window_size.second + 1);
+            tc->cursor.second = std::min<int>(tc->window_size.second - 1, line_length);
+        }
+
+        // scroll left
+        if (tc->cursor.second < 0) {
+            tc->view.second = std::max(tc->view.second - 1, 0);
+            tc->cursor.second = 0;
+        }
+
+        return old_view_row != tc->view.first || old_view_col != tc->view.second;
     }
 
     void set_cursor(int row, int col, bool refresh_screen=true) {
