@@ -11,23 +11,21 @@
 
 namespace barthes {
     void add_newline(TermConfig *tc) {
-        std::pair<int, int> loc = file_loc(tc);
-        int row = loc.first;
-        int col = loc.second;
+        std::pair<int, int> file_loc = get_file_loc(tc);
 
-        std::string existing_line = tc->file_buffer[row];
-        std::string replacement_line = existing_line.substr(0, col);
-        std::string new_line = existing_line.substr(col, existing_line.size());
+        std::string existing_line = tc->file_buffer[file_loc.first];
+        std::string replacement_line = existing_line.substr(0, file_loc.second);
+        std::string new_line = existing_line.substr(file_loc.second, existing_line.size());
 
-        tc->file_buffer[row] = replacement_line;
-        tc->file_buffer.insert(tc->file_buffer.begin() + row + 1, new_line);
+        tc->file_buffer[file_loc.first] = replacement_line;
+        tc->file_buffer.insert(tc->file_buffer.begin() + file_loc.first + 1, new_line);
 
         to_screen(tc->file_buffer);
-        move_cursor_absolute(tc, row + 1, 0);
+        move_cursor_absolute(tc, tc->cursor.first + 1, 0);
     }
 
     void add_ch(TermConfig *tc, int input) {
-        std::pair<int, int> loc = file_loc(tc);
+        std::pair<int, int> loc = get_file_loc(tc);
         int row = loc.first;
         int col = loc.second;
 
@@ -38,27 +36,29 @@ namespace barthes {
     }
 
     void remove_ch(TermConfig *tc) {
-        std::pair<int, int> loc = file_loc(tc);
-        int row = loc.first;
-        int col = loc.second;
-        if (col - 1 >= 0) {
-            tc->file_buffer[row].erase(col - 1, 1);
+        std::pair<int, int> loc = get_file_loc(tc);
+        int file_row = loc.first;
+        int file_col = loc.second;
+        if (file_col - 1 >= 0) {
+            // we are erasing a char in the middle of a string
+            tc->file_buffer[file_row].erase(file_col - 1, 1);
             to_screen(tc->file_buffer);
             move_cursor(tc, 0, -1);
         } else {
-            if (row == 0) {
+            // we are erasing a newline character
+            if (file_row == 0) {
                 // we are on the first character of the first line,
                 // so there is nothing to remove
                 return;
             }
-            std::string current_line = tc->file_buffer[row];
-            int col_pos = tc->file_buffer[row - 1].length();
+            std::string current_line = tc->file_buffer[file_row];
+            int col_pos = tc->file_buffer[file_row - 1].length();
 
-            tc->file_buffer[row - 1].append(current_line);
-            tc->file_buffer.erase(tc->file_buffer.begin() + row);
+            tc->file_buffer[file_row - 1].append(current_line);
+            tc->file_buffer.erase(tc->file_buffer.begin() + file_row);
 
             to_screen(tc->file_buffer);
-            move_cursor_absolute(tc, row - 1, col_pos);
+            move_cursor_absolute(tc, tc->cursor.first - 1, col_pos);
         }
     }
 

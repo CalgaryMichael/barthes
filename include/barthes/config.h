@@ -25,7 +25,7 @@ namespace barthes {
     void set_mode(TermConfig *tc, EditorMode mode);
     int get_row_max(TermConfig *tc);
     int get_col_max(TermConfig *tc);
-    std::pair<int, int> file_loc(TermConfig *tc);
+    std::pair<int, int> get_file_loc(TermConfig *tc);
     TermConfig* get_config();
 }
 

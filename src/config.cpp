@@ -45,11 +45,11 @@ namespace barthes {
     }
 
     int get_col_max(TermConfig *tc) {
-        std::pair<int, int> loc = file_loc(tc);
+        std::pair<int, int> loc = get_file_loc(tc);
         return tc->file_buffer[loc.first].length();
     }
 
-    std::pair<int, int> file_loc(TermConfig *tc) {
+    std::pair<int, int> get_file_loc(TermConfig *tc) {
         return std::make_pair(
             tc->view.first + tc->cursor.first,
             tc->view.second + tc->cursor.second
