@@ -26,31 +26,38 @@ namespace barthes {
         std::atexit(teardown_screen);
     }
 
+    std::string generate_line(TermConfig *tc, std::vector<std::string> buffer, int index) {
+        std::string line = "";
+        if (buffer[index].length() > tc->view.second) {
+            // do not let a string extend beyond the screen side (horizontally)
+            int col_start = tc->view.second;
+            int col_end = tc->window_size.second - 1;
+            line = buffer[index].substr(col_start, col_end);
+        }
+        return fmt::format("{}\n", line);
+    }
+
+    std::string generate_lines(TermConfig *tc, std::vector<std::string> buffer) {
+        int row_start = tc->view.first;
+        int row_end = std::min<int>(tc->view.first + tc->window_size.first, buffer.size());
+
+        // build the string that we are going to send to the screen
+        std::string lines;
+        for (int i = row_start; i < row_end; i++) {
+            lines += generate_line(tc, buffer, i);
+        }
+        return lines;
+    }
+
     void to_screen(std::string text) {
         printw(text.c_str());
         refresh();
     }
 
     void to_screen(std::vector<std::string> buffer, TermConfig *tc) {
-        int row_start = tc->view.first;
-        int row_end = std::min<int>(tc->view.first + tc->window_size.first, buffer.size());
-
-        // build the string that we are going to send to the screen
-        std::string output;
-        for (int i = row_start; i < row_end; i++) {
-            std::string line = "";
-            if (buffer[i].length() > tc->view.second) {
-                // do not let a string extend beyond the screen side (horizontally)
-                int col_start = tc->view.second;
-                int col_end = tc->window_size.second - 1;
-                line = buffer[i].substr(col_start, col_end);
-            }
-            output += fmt::format("{}\n", line);
-        }
-
-        // actually handle putting stuff onto the screen
+        std::string lines = generate_lines(tc, buffer);
         clear();
-        to_screen(output);
+        to_screen(lines);
     }
 
     void to_screen(std::vector<std::string> buffer) {

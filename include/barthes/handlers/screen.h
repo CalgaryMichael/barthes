@@ -11,9 +11,12 @@ namespace barthes {
     void teardown_screen();
     void init_screen();
 
+    std::string generate_line(TermConfig *tc, std::vector<std::string> buffer, int index);
+    std::string generate_lines(TermConfig *tc, std::vector<std::string> buffer);
     void to_screen(std::string text);
     void to_screen(std::vector<std::string> text, TermConfig *tc);
     void to_screen(std::vector<std::string> text);
+
     bool adjust_view(TermConfig *tc);
     void set_cursor(int row, int col, bool refresh_screen);
     void set_cursor(TermConfig *tc);
