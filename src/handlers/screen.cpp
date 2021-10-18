@@ -73,14 +73,20 @@ namespace barthes {
         // scroll down
         if (tc->cursor.first >= tc->window_size.first) {
             int buffer_size = get_row_max(tc);
-            tc->view.first = std::min<int>(tc->view.first + 1, buffer_size - tc->window_size.first + 1);
+            tc->view.first = std::min<int>(
+                tc->view.first + 1,
+                std::max<int>(buffer_size - tc->window_size.first + 1, 0)
+            );
             tc->cursor.first = std::min<int>(tc->window_size.first - 1, buffer_size);
         }
 
         // scroll right
         if (tc->cursor.second >= tc->window_size.second) {
             int line_length = get_col_max(tc);
-            tc->view.second = std::min<int>(tc->view.second + 1, line_length - tc->window_size.second + 1);
+            tc->view.second = std::min<int>(
+                tc->view.second + 1,
+                std::max<int>(line_length - tc->window_size.second + 1, 0)
+            );
             tc->cursor.second = std::min<int>(tc->window_size.second - 1, line_length);
         }
 
