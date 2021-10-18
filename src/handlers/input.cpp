@@ -110,7 +110,6 @@ namespace barthes {
 
     KeypressResponse handle_edit_keypress(TermConfig *tc, int input) {
         KeypressResponse response = KeypressResponse::Continue;
-        // TODO: set up keyboard handling when in "Edit" mode
         switch (input) {
             // KEY_DOWN moves you *visually* down, but "up" on current row number
             case KEY_DOWN:

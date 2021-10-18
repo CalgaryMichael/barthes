@@ -12,6 +12,7 @@ namespace barthes {
     void init_screen();
 
     void to_screen(std::string text);
+    void to_screen(std::vector<std::string> text, TermConfig *tc);
     void to_screen(std::vector<std::string> text);
     bool adjust_view(TermConfig *tc);
     void set_cursor(int row, int col, bool refresh_screen);

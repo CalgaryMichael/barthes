@@ -41,10 +41,13 @@ namespace barthes {
     }
 
     int get_row_max(TermConfig *tc) {
-        return tc->file_buffer.size() - 1;
+        return std::max<int>(tc->file_buffer.size() - 1, 0);
     }
 
     int get_col_max(TermConfig *tc) {
+        if (tc->file_buffer.size() < 1) {
+            return 0;
+        }
         std::pair<int, int> loc = get_file_loc(tc);
         return tc->file_buffer[loc.first].length();
     }

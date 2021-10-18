@@ -31,8 +31,7 @@ namespace barthes {
         refresh();
     }
 
-    void to_screen(std::vector<std::string> buffer) {
-        TermConfig *tc = get_config();
+    void to_screen(std::vector<std::string> buffer, TermConfig *tc) {
         int row_start = tc->view.first;
         int row_end = std::min<int>(tc->view.first + tc->window_size.first, buffer.size());
 
@@ -52,6 +51,11 @@ namespace barthes {
         // actually handle putting stuff onto the screen
         clear();
         to_screen(output);
+    }
+
+    void to_screen(std::vector<std::string> buffer) {
+        TermConfig *tc = get_config();
+        to_screen(buffer, tc);
     }
 
     bool adjust_view(TermConfig *tc) {
@@ -99,7 +103,7 @@ namespace barthes {
     void set_cursor(TermConfig *tc) {
         bool scrolled = adjust_view(tc);
         if (scrolled) {
-            to_screen(tc->file_buffer);
+            to_screen(tc->file_buffer, tc);
         }
         set_cursor(tc->cursor.first, tc->cursor.second, !scrolled);
     }

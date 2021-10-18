@@ -16,6 +16,8 @@ ENABLE_TESTING()
 SET(test_files
   handlers/file.test.cpp
   handlers/input.test.cpp
+  handlers/screen.test.cpp
+  config.test.cpp
 )
 
 ADD_EXECUTABLE(barthes_test ${test_files})
